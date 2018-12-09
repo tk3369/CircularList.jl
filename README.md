@@ -6,3 +6,18 @@
 [![Build Status](https://ci.appveyor.com/api/projects/status/github/tk3369/CircularList.jl?svg=true)](https://ci.appveyor.com/project/tk3369/CircularList-jl)
 [![Codecov](https://codecov.io/gh/tk3369/CircularList.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/tk3369/CircularList.jl)
 [![Coveralls](https://coveralls.io/repos/github/tk3369/CircularList.jl/badge.svg?branch=master)](https://coveralls.io/github/tk3369/CircularList.jl?branch=master)
+
+This is an implementation of a circular list structure. 
+
+## Installation
+
+```
+]add CircularList
+```
+
+## Features
+
+- Adding a new node is _O(1)_
+- Delete an existing node is _O(1)_
+- Ability to hold millions of nodes
+
