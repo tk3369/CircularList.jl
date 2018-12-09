@@ -21,6 +21,7 @@ mutable struct Buffer
     nodes::Vector{Node}
     current::Node
     length::Int
+    last::Int
     capacity::Int
 end
 
@@ -31,21 +32,22 @@ function circularlist(data::T; capacity = 100) where T
     n.data = data
     n.prev = n
     n.next = n
-    return Buffer(nodes, n, 1, capacity)
+    return Buffer(nodes, n, 1, 1, capacity)
 end
 
 "Returns the length of the circular list"
 length(buf::Buffer) = buf.length
 
 "Allocates a new uninitialized node in the circular list"
-function allocate!(buf::Buffer)
-    if buf.length == buf.capacity   # exceeded capacity...auto resize.
+function allocate!(buf::Buffer, T::DataType)
+    if buf.last == buf.capacity   # exceeded capacity...auto resize.
         newcapacity = buf.capacity * 2
         additional  = newcapacity - buf.capacity
         buf.nodes = vcat(buf.nodes, [Node{T}(nothing, nothing, nothing) for _ in 1:additional])
         buf.capacity = newcapacity
     end
     buf.length += 1
+    buf.last += 1
     return buf.nodes[buf.length]
 end
 
@@ -53,7 +55,7 @@ end
 function insert!(buf::Buffer, data) 
     cl = buf.current
     
-    n = allocate!(buf)  # make a new node and arrange prev/next pointers
+    n = allocate!(buf, typeof(data))  # make a new node and arrange prev/next pointers
     n.data = data
     n.prev = cl
     n.next = cl.next
@@ -76,6 +78,7 @@ function delete!(buf::Buffer)
     cl.prev.next = cl.next   # fix prev node's next pointer
     cl.next.prev = cl.prev   # fix next node's prev pointer
     buf.current = cl.prev    # reset buffer's current pointer to prev
+    buf.length -= 1
     return buf
 end
 
