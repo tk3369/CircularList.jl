@@ -48,7 +48,7 @@ function allocate!(buf::Buffer, T::DataType)
     end
     buf.length += 1
     buf.last += 1
-    return buf.nodes[buf.length]
+    return buf.nodes[buf.last]
 end
 
 "Insert a new node after the current node and return the new node."
