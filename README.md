@@ -15,7 +15,9 @@
 
 ## Features
 
+It is essentially a [doubly linked list](https://en.wikipedia.org/wiki/Doubly_linked_list).
+
 - Adding a new node is _O(1)_
 - Delete an existing node is _O(1)_
-- Ability to hold millions of nodes
+- Ability to handle millions of nodes
 
