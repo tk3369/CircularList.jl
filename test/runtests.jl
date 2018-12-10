@@ -70,9 +70,13 @@ using Test
     delete!(CL); delete!(CL); delete!(CL)
     insert!(CL,11); insert!(CL,12); insert!(CL,13)
     @test length(CL) == 10
+    @test size(CL) == (10,)
 
     # dummy tests to pass coverge
     println("dummy tests")
     show(CL)
-    println(); println()
+    println()
+    show(current(CL))
+    println()
+    println()
 end
