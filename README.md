@@ -25,14 +25,14 @@ It is essentially a [doubly linked list](https://en.wikipedia.org/wiki/Doubly_li
 
 To construct a circular list, you must start with 1 datum element:
 ```
-h = circularlist(0)      # CircularList(0)
+h = circularlist(0)      # CircularList.List(0)
 ```
 
 You can insert a new element after the current node. The new node becomes the _head_:
 ```
-insert!(h, 1)            # CircularList(1,0)
-insert!(h, 2)            # CircularList(2,0,1)
-insert!(h, 3)            # CircularList(3,0,1,2)
+insert!(h, 1)            # CircularList.List(1,0)
+insert!(h, 2)            # CircularList.List(2,0,1)
+insert!(h, 3)            # CircularList.List(3,0,1,2)
 ```
 
 If you delete the current node, the previous node becomes the _head_:
@@ -42,10 +42,16 @@ delete!(h)               # CircularList(2,0,1)
 
 You can move the head pointer in any direction:
 ```
-forward!(h)              # CircularList(0,1,2)
-backward!(h)             # CircularList(2,0,1)
-shift!(h, 2, :forward)   # CircularList(1,2,0)
-shift!(h, 2, :backward)  # CircularList(2,0,1)
+forward!(h)              # CircularList.List(0,1,2)
+backward!(h)             # CircularList.List(2,0,1)
+shift!(h, 2, :forward)   # CircularList.List(1,2,0)
+shift!(h, 2, :backward)  # CircularList.List(2,0,1)
+```
+
+You can get the head and tail node:
+```
+head(h)                  # CircularList.Node(2)
+tail(h)                  # CircularList.Node(1)
 ```
 
 You can peek at the data of current, previous, or next nodes:
@@ -60,7 +66,7 @@ Most methods returns `CircularList.List` so they are highly chainable:
 julia> using Lazy
 
 julia> @> h = circularlist(0) insert!(1) insert!(2) insert!(3) forward!
-CircularList(0,1,2,3)
+CircularList.List(0,1,2,3)
 ```
 
 It is iteration friendly:
