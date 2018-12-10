@@ -57,6 +57,14 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
+    "location": "index.html#Base.show-Union{Tuple{T}, Tuple{IO,Node{T}}} where T",
+    "page": "Home",
+    "title": "Base.show",
+    "category": "method",
+    "text": "Show node\n\n\n\n\n\n"
+},
+
+{
     "location": "index.html#Base.size-Tuple{CircularList.List}",
     "page": "Home",
     "title": "Base.size",
