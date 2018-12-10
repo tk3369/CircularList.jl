@@ -1,28 +1,29 @@
 module CircularList
 
-import Base: insert!, delete!, length
+import Base: insert!, delete!, length, size, eltype, iterate, show
 
-export circularlist, length, current, previous, next, 
-    insert!, delete!, shift!, forward!, backward!
+export circularlist, length, size, current, previous, next, 
+    insert!, delete!, shift!, forward!, backward!,
+    eltype, iterate, show
 
 """
-Double linked list
+Doubly linked list implementation
 """
 mutable struct Node{T} 
-    data::Union{T, Nothing}
+    data::Union{T, Nothing} 
     prev::Union{Node{T}, Nothing}
     next::Union{Node{T}, Nothing}
 end
 
 """
-Buffer is used to hold a pre-allocated vector of nodes.
+List is used to hold a pre-allocated vector of nodes.
 """
-mutable struct Buffer
-    nodes::Vector{Node}
-    current::Node
-    length::Int
-    last::Int
-    capacity::Int
+mutable struct List{T} 
+    nodes::Vector{Node{T}}      # preallocated array of nodes
+    current::Node{T}            # current "head" or the circular list
+    length::Int                 # number of active elements
+    last::Int                   # last index of the nodes array
+    capacity::Int               # size of the nodes array
 end
 
 "Create a circular list with the specified data element."
@@ -32,30 +33,40 @@ function circularlist(data::T; capacity = 100) where T
     n.data = data
     n.prev = n
     n.next = n
-    return Buffer(nodes, n, 1, 1, capacity)
+    return List(nodes, n, 1, 1, capacity)
+end
+
+"Create a circular list from any vector"
+function circularlist(vec::AbstractVector{T}; kw...) where T
+    CL = circularlist(vec[1]; kw...)
+    for i in 2:length(vec)
+        insert!(CL, vec[i])
+    end
+    forward!(CL)  # move one more step to the original head
+    return CL
 end
 
 "Returns the length of the circular list"
-length(buf::Buffer) = buf.length
+length(CL::List) = CL.length
 
 "Allocates a new uninitialized node in the circular list"
-function allocate!(buf::Buffer, T::DataType)
-    if buf.last == buf.capacity   # exceeded capacity...auto resize.
-        newcapacity = buf.capacity * 2
-        additional  = newcapacity - buf.capacity
-        buf.nodes = vcat(buf.nodes, [Node{T}(nothing, nothing, nothing) for _ in 1:additional])
-        buf.capacity = newcapacity
+function allocate!(CL::List, T::DataType)
+    if CL.last == CL.capacity   # exceeded capacity...auto resize.
+        newcapacity = CL.capacity * 2
+        additional  = newcapacity - CL.capacity
+        CL.nodes = vcat(CL.nodes, [Node{T}(nothing, nothing, nothing) for _ in 1:additional])
+        CL.capacity = newcapacity
     end
-    buf.length += 1
-    buf.last += 1
-    return buf.nodes[buf.last]
+    CL.length += 1
+    CL.last += 1
+    return CL.nodes[CL.last]
 end
 
 "Insert a new node after the current node and return the new node."
-function insert!(buf::Buffer, data) 
-    cl = buf.current
+function insert!(CL::List, data) 
+    cl = CL.current
     
-    n = allocate!(buf, typeof(data))  # make a new node and arrange prev/next pointers
+    n = allocate!(CL, typeof(data))  # make a new node and arrange prev/next pointers
     n.data = data
     n.prev = cl
     n.next = cl.next
@@ -63,8 +74,8 @@ function insert!(buf::Buffer, data)
     cl.next = n         # fix prev node's next pointer
     n.next.prev = n     # fix next node's prev pointer
     
-    buf.current = n     # move pointer to newly inserted node
-    return buf
+    CL.current = n     # move pointer to newly inserted node
+    return CL
 end
 
 """
@@ -72,45 +83,70 @@ Delete current node and return the previous node.
 
 _Warning_: removed nodes are not reclaimed from memory for simplicity reasons
 """
-function delete!(buf::Buffer)
-    length(buf) == 1 && error("cannot remove last item in circular list")
-    cl = buf.current
+function delete!(CL::List)
+    length(CL) == 1 && error("cannot remove last item in circular list")
+    cl = CL.current
     cl.prev.next = cl.next   # fix prev node's next pointer
     cl.next.prev = cl.prev   # fix next node's prev pointer
-    buf.current = cl.prev    # reset buffer's current pointer to prev
-    buf.length -= 1
-    return buf
+    CL.current = cl.prev    # reset List's current pointer to prev
+    CL.length -= 1
+    return CL
 end
 
 """
 Shift the current pointer forward or backward.
 """
-function shift!(buf::Buffer, steps::Int, direction::Symbol)
+function shift!(CL::List, steps::Int, direction::Symbol)
     for i in 1:steps
         if direction == :forward 
-            buf.current = buf.current.next
+            CL.current = CL.current.next
         elseif direction == :backward
-            buf.current = buf.current.prev
+            CL.current = CL.current.prev
         else
             error("Wrong direction: $direction")
         end
     end
-    return buf
+    return CL
 end
 
 "Shift the current pointer forward."
-forward!(buf::Buffer) = shift!(buf, 1, :forward)
+forward!(CL::List) = shift!(CL, 1, :forward)
 
 "Shift the current pointer backward."
-backward!(buf::Buffer) = shift!(buf, 1, :backward)
+backward!(CL::List) = shift!(CL, 1, :backward)
 
-"Current node"
-current(buf::Buffer) = buf.current
+"Return the current node."
+current(CL::List) = CL.current
 
-"Previous node"
-previous(buf::Buffer) = buf.current.prev
+"Return the previous node."
+previous(CL::List) = CL.current.prev
 
-"Next node"
-next(buf::Buffer) = buf.current.next
+"Return the ext node."
+next(CL::List) = CL.current.next
+
+"Return the head of the list (current node)."
+head(CL::List) = CL.current
+
+"Return the tail of the list"
+tail(CL::List) = CL.prev
+
+"Iteration protocol implementation."
+function iterate(CL::List, (el, i) = (CL.current, 1))
+    i > CL.length && return nothing
+    return (el.data, (el.next, i + 1))
+end
+
+"Return the element type of the list"
+eltype(CL::List) = typeof(CL.current.data)
+
+"Return the size of the list."
+size(CL::List) = (CL.length, )
+
+"Show list."
+function show(io::IO, CL::List{T}) where T
+    print(io, "CircularList(")
+    print(io, join([x for x in CL], ","))
+    print(io, ")")
+end
 
 end # module
