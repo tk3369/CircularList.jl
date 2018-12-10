@@ -62,6 +62,10 @@ using Test
     @test [x for x in CL] == collect(1:10)
     @test sum(x for x in CL) == 55
 
+    # test head/tail
+    @test head(CL).data == 1
+    @test tail(CL).data == 10
+
     # mixing delete! & insert! to ensure integrity
     delete!(CL); delete!(CL); delete!(CL)
     insert!(CL,11); insert!(CL,12); insert!(CL,13)

@@ -4,7 +4,7 @@ import Base: insert!, delete!, length, size, eltype, iterate, show
 
 export circularlist, length, size, current, previous, next, 
     insert!, delete!, shift!, forward!, backward!,
-    eltype, iterate, show
+    eltype, iterate, show, head, tail
 
 """
 Doubly linked list implementation
@@ -127,8 +127,8 @@ next(CL::List) = CL.current.next
 "Return the head of the list (current node)."
 head(CL::List) = CL.current
 
-"Return the tail of the list"
-tail(CL::List) = CL.prev
+"Return the tail of the list (last node)"
+tail(CL::List) = CL.current.prev
 
 "Iteration protocol implementation."
 function iterate(CL::List, (el, i) = (CL.current, 1))
