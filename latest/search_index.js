@@ -113,6 +113,14 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
+    "location": "index.html#CircularList.head-Tuple{CircularList.List}",
+    "page": "Home",
+    "title": "CircularList.head",
+    "category": "method",
+    "text": "Return the head of the list (current node).\n\n\n\n\n\n"
+},
+
+{
     "location": "index.html#CircularList.next-Tuple{CircularList.List}",
     "page": "Home",
     "title": "CircularList.next",
@@ -137,6 +145,14 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
+    "location": "index.html#CircularList.tail-Tuple{CircularList.List}",
+    "page": "Home",
+    "title": "CircularList.tail",
+    "category": "method",
+    "text": "Return the tail of the list (last node)\n\n\n\n\n\n"
+},
+
+{
     "location": "index.html#CircularList.List",
     "page": "Home",
     "title": "CircularList.List",
@@ -158,22 +174,6 @@ var documenterSearchIndex = {"docs": [
     "title": "CircularList.allocate!",
     "category": "method",
     "text": "Allocates a new uninitialized node in the circular list\n\n\n\n\n\n"
-},
-
-{
-    "location": "index.html#CircularList.head-Tuple{CircularList.List}",
-    "page": "Home",
-    "title": "CircularList.head",
-    "category": "method",
-    "text": "Return the head of the list (current node).\n\n\n\n\n\n"
-},
-
-{
-    "location": "index.html#CircularList.tail-Tuple{CircularList.List}",
-    "page": "Home",
-    "title": "CircularList.tail",
-    "category": "method",
-    "text": "Return the tail of the list\n\n\n\n\n\n"
 },
 
 {
