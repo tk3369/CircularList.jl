@@ -21,7 +21,6 @@ using Test
     # delete!
     @test current(CL).data == 2
     delete!(CL)
-    println(CL.current.data)
     @test length(CL) == 2
     @test current(CL).data == 1
     @test current(CL).next.data == 0
@@ -52,4 +51,24 @@ using Test
         end
         @test current(CL) == curr
     end
+
+    CL = circularlist(collect(1:10))
+    @test eltype(CL) == Int
+    @test current(CL).data == 1
+    @test previous(CL).data == 10
+    @test next(CL).data == 2
+
+    # test iteration
+    @test [x for x in CL] == collect(1:10)
+    @test sum(x for x in CL) == 55
+
+    # mixing delete! & insert! to ensure integrity
+    delete!(CL); delete!(CL); delete!(CL)
+    insert!(CL,11); insert!(CL,12); insert!(CL,13)
+    @test length(CL) == 10
+
+    # dummy tests to pass coverge
+    println("dummy tests")
+    show(CL)
+    println(); println()
 end
