@@ -23,21 +23,23 @@ It is essentially a [doubly linked list](https://en.wikipedia.org/wiki/Doubly_li
 
 ## How to use?
 
-To construct a circular list, you must start with 1 datum element:
+To construct a circular list, you must start with at least 1 datum element.
 ```
 h = circularlist(0)      # CircularList.List(0)
+h = circularlist([1,2])  # CircularList.List(1,2)
 ```
 
-You can insert a new element after the current node. The new node becomes the _head_:
+When inserting new data, the new node becomes the _head_.
 ```
+h = circularlist(0)      # CircularList.List(0)
 insert!(h, 1)            # CircularList.List(1,0)
 insert!(h, 2)            # CircularList.List(2,0,1)
 insert!(h, 3)            # CircularList.List(3,0,1,2)
 ```
 
-If you delete the current node, the previous node becomes the _head_:
+When deleting the current node, the previous node becomes the _head_:
 ```
-delete!(h)               # CircularList(2,0,1)
+delete!(h)               # CircularList.List(2,0,1)
 ```
 
 You can move the head pointer in any direction:
