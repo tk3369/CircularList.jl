@@ -1,7 +1,7 @@
 name = "CircularList"
-uuid = "0ec3f8a2-fb90-11e8-1e6b-0fe9868720fa"
+uuid = "e1d4a2be-69cc-597c-a2ea-cc5d6f241fff"
 authors = ["Tom Kwong <tk3369@gmail.com>"]
-version = "0.1.0"
+version = "1.0.0"
 
 [extras]
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
