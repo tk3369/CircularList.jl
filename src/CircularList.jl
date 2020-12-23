@@ -3,7 +3,7 @@ module CircularList
 import Base: insert!, delete!, length, size, eltype, iterate, show
 
 export circularlist, length, size, current, previous, next, 
-    insert!, delete!, shift!, forward!, backward!,
+    insert!, delete!, shift!, forward!, backward!, jump!,
     eltype, iterate, show, head, tail
 
 """
@@ -129,6 +129,8 @@ head(CL::List) = CL.current
 
 "Return the tail of the list (last node)"
 tail(CL::List) = CL.current.prev
+
+jump!(CL::List, n::Node) = CL.current = n
 
 "Iteration protocol implementation."
 function iterate(CL::List, (el, i) = (CL.current, 1))
