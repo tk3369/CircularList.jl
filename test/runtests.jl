@@ -28,6 +28,21 @@ using Test
     @test current(CL).prev.data == 0
     @test current(CL).prev.prev.data == 1
 
+    # shift!
+    CL = circularlist(6:10)
+    shift!(CL, 2)
+    @test current(CL).data == 8
+    shift!(CL, 2, :forward)
+    @test current(CL).data == 10
+    shift!(CL, -2, :backward)
+    @test current(CL).data == 7
+    shift!(CL, -2)
+    @test current(CL).data == 10
+    shift!(CL, -2, :forward)
+    @test current(CL).data == 8
+    shift!(CL, 2, :backward)
+    @test current(CL).data == 6
+
     # auto resize feature
     CL = circularlist("str_0", capacity = 5)
     for i in 1:100
