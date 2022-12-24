@@ -23,7 +23,6 @@ mutable struct List{T}
     current::Node{T}            # current "head" or the circular list
     length::Int                 # number of active elements
     last::Int                   # last index of the nodes array
-    capacity::Int               # size of the nodes array
 end
 
 "Create a circular list with the specified data element."
@@ -33,7 +32,7 @@ function circularlist(data::T; capacity = 100) where T
     n.data = data
     n.prev = n
     n.next = n
-    return List(nodes, n, 1, 1, capacity)
+    return List(nodes, n, 1, 1)
 end
 
 "Create a circular list from any vector"
@@ -51,11 +50,9 @@ length(CL::List) = CL.length
 
 "Allocates a new uninitialized node in the circular list"
 function allocate!(CL::List, T::DataType)
-    if CL.last == CL.capacity   # exceeded capacity...auto resize.
-        newcapacity = CL.capacity * 2
-        additional  = newcapacity - CL.capacity
+    if CL.last == length(CL.nodes)   # exceeded capacity...auto resize.
+        additional = length(CL.nodes)
         CL.nodes = vcat(CL.nodes, [Node{T}(nothing, nothing, nothing) for _ in 1:additional])
-        CL.capacity = newcapacity
     end
     CL.length += 1
     CL.last += 1
