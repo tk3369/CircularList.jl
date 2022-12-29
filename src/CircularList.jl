@@ -94,23 +94,14 @@ end
 Shift the current pointer forward or backward.
 The direction (:forward or :backward) can optional be provided to make it explicit.
 """
-function shift!(CL::List, steps::Int, direction::Symbol)
-    if direction == :forward
-        return shift!(CL, steps)
-    elseif direction == :backward
-        return shift!(CL, -steps)
-    end
-    error("Wrong direction: $direction")
-end
-
 function shift!(CL::List, steps::Int)
     if steps < 0
         steps = -steps
-        for i in 1:steps
+        for _ in 1:steps
             CL.current = CL.current.prev
         end
     else
-        for i in 1:steps
+        for _ in 1:steps
             CL.current = CL.current.next
         end
     end

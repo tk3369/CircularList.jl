@@ -32,16 +32,8 @@ using Test
     CL = circularlist(6:10)
     shift!(CL, 2)
     @test current(CL).data == 8
-    shift!(CL, 2, :forward)
-    @test current(CL).data == 10
-    shift!(CL, -2, :backward)
+    shift!(CL, -1)
     @test current(CL).data == 7
-    shift!(CL, -2)
-    @test current(CL).data == 10
-    shift!(CL, -2, :forward)
-    @test current(CL).data == 8
-    shift!(CL, 2, :backward)
-    @test current(CL).data == 6
 
     # auto resize feature
     CL = circularlist("str_0", capacity = 5)
