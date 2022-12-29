@@ -109,10 +109,10 @@ function shift!(CL::List, steps::Int)
 end
 
 "Shift the current pointer forward."
-forward!(CL::List) = shift!(CL, 1, :forward)
+forward!(CL::List) = shift!(CL, 1)
 
 "Shift the current pointer backward."
-backward!(CL::List) = shift!(CL, 1, :backward)
+backward!(CL::List) = shift!(CL, -1)
 
 "Return the current node."
 current(CL::List) = CL.current
