@@ -4,7 +4,7 @@ using Test
 @testset "CircularList.jl" begin
 
     # general/peek
-    CL = circularlist(0) 
+    CL = circularlist(0)
     @test length(CL) == 1
     @test current(CL) == previous(CL)
     @test current(CL) == next(CL)
@@ -34,7 +34,7 @@ using Test
         insert!(CL, "str_$i")
     end
     @test length(CL) == 101
-    @test CL.capacity == 160   # 5 * 2 * 2 * 2 * 2 * 2 = 160
+    @test length(CL.nodes) == 160   # 5 * 2 * 2 * 2 * 2 * 2 = 160
 
     # forward -- testing next links
     let curr = current(CL)
