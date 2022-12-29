@@ -82,11 +82,7 @@ using Test
     @test length(CL) == 10
     @test size(CL) == (10,)
 
-    # dummy tests to pass coverge
-    println("dummy tests")
-    show(CL)
-    println()
-    show(current(CL))
-    println()
-    println()
+    # test show (by using string)
+    @test string(CL) == "CircularList.List(13,2,3,4,5,6,7,8,11,12)"
+    @test string(current(CL)) == "CircularList.Node(13)"
 end
