@@ -30,10 +30,13 @@ using Test
 
     # shift!
     CL = circularlist(6:10)
+    node = current(CL)
     shift!(CL, 2)
     @test current(CL).data == 8
     shift!(CL, -1)
     @test current(CL).data == 7
+    jump!(CL, node)
+    @test current(CL).data == 6
 
     # auto resize feature
     CL = circularlist("str_0", capacity = 5)
