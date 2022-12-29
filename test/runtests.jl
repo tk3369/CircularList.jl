@@ -83,6 +83,6 @@ using Test
     @test size(CL) == (10,)
 
     # test show (by using string)
-    @test string(CL) == "CircularList.List(13,2,3,4,5,6,7,8,11,12)"
+    @test string(CL) == "CircularList.List([13,2,3,4,5,6,7,8,11,12])"
     @test string(current(CL)) == "CircularList.Node(13)"
 end
