@@ -2,15 +2,15 @@ module CircularList
 
 import Base: insert!, delete!, length, size, eltype, iterate, show
 
-export circularlist, length, size, current, previous, next, 
+export circularlist, length, size, current, previous, next,
     insert!, delete!, shift!, forward!, backward!, jump!,
     eltype, iterate, show, head, tail
 
 """
 Doubly linked list implementation
 """
-mutable struct Node{T} 
-    data::Union{T, Nothing} 
+mutable struct Node{T}
+    data::Union{T, Nothing}
     prev::Union{Node{T}, Nothing}
     next::Union{Node{T}, Nothing}
 end
@@ -18,7 +18,7 @@ end
 """
 List is used to hold a pre-allocated vector of nodes.
 """
-mutable struct List{T} 
+mutable struct List{T}
     nodes::Vector{Node{T}}      # preallocated array of nodes
     current::Node{T}            # current "head" or the circular list
     length::Int                 # number of active elements
@@ -60,9 +60,9 @@ function allocate!(CL::List, T::DataType)
 end
 
 "Insert a new node after the current node and return the new node."
-function insert!(CL::List, data) 
+function insert!(CL::List, data)
     cl = CL.current
-    
+
     n = allocate!(CL, typeof(data))  # make a new node and arrange prev/next pointers
     n.data = data
     n.prev = cl
@@ -70,7 +70,7 @@ function insert!(CL::List, data)
 
     cl.next = n         # fix prev node's next pointer
     n.next.prev = n     # fix next node's prev pointer
-    
+
     CL.current = n     # move pointer to newly inserted node
     return CL
 end
@@ -92,25 +92,27 @@ end
 
 """
 Shift the current pointer forward or backward.
+The direction (:forward or :backward) can optional be provided to make it explicit.
 """
-function shift!(CL::List, steps::Int, direction::Symbol)
-    for i in 1:steps
-        if direction == :forward 
-            CL.current = CL.current.next
-        elseif direction == :backward
+function shift!(CL::List, steps::Int)
+    if steps < 0
+        steps = -steps
+        for _ in 1:steps
             CL.current = CL.current.prev
-        else
-            error("Wrong direction: $direction")
+        end
+    else
+        for _ in 1:steps
+            CL.current = CL.current.next
         end
     end
     return CL
 end
 
 "Shift the current pointer forward."
-forward!(CL::List) = shift!(CL, 1, :forward)
+forward!(CL::List) = shift!(CL, 1)
 
 "Shift the current pointer backward."
-backward!(CL::List) = shift!(CL, 1, :backward)
+backward!(CL::List) = shift!(CL, -1)
 
 "Return the current node."
 current(CL::List) = CL.current
@@ -161,4 +163,3 @@ function show(io::IO, node::Node{T}) where T
 end
 
 end # module
-

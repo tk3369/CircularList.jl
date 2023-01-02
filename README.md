@@ -45,8 +45,8 @@ You can move the head pointer in any direction:
 ```
 forward!(h)              # CircularList.List(0,1,2)
 backward!(h)             # CircularList.List(2,0,1)
-shift!(h, 2, :forward)   # CircularList.List(1,2,0)
-shift!(h, 2, :backward)  # CircularList.List(2,0,1)
+shift!(h, 2)             # CircularList.List(1,2,0)
+shift!(h, -2)            # CircularList.List(2,0,1)
 ```
 
 Or, if you have a reference to a specific node, you can jump to that node directly and that node becomes the head!
