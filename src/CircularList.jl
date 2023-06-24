@@ -169,14 +169,12 @@ size(CL::List) = (CL.length, )
 
 "Show list."
 function show(io::IO, CL::List{T}) where T
-    print(io, "CircularList.List(")
-    i = 1
-    for x in CL
-        show(io, x)
-        i += 1
-        i <= length(CL) && print(io, ",")
-    end
-    print(io, ")")
+    print(
+        io,
+        "CircularList.List([",
+        join(collect(CL),","),
+        "])",
+    )
 end
 
 "Show node"
