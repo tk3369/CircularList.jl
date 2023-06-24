@@ -38,6 +38,20 @@ using Test
     jump!(CL, node)
     @test current(CL).data == 6
 
+    # move!
+    CL = circularlist(6:10)
+    move!(CL, 3)
+    n = current(CL)
+    @test n.data == 6
+    @test n.prev.data == 9
+    @test n.next.data == 10
+    shift!(CL, 1)
+    move!(CL, -2)
+    n = current(CL)
+    @test n.data == 10
+    @test n.prev.data == 8
+    @test n.next.data == 9
+
     # auto resize feature
     CL = circularlist("str_0", capacity = 5)
     for i in 1:100

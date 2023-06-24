@@ -3,7 +3,7 @@ module CircularList
 import Base: insert!, delete!, length, size, eltype, iterate, show
 
 export circularlist, length, size, current, previous, next,
-    insert!, delete!, shift!, forward!, backward!, jump!,
+    insert!, delete!, shift!, move!, forward!, backward!, jump!,
     eltype, iterate, show, head, tail
 
 """
@@ -105,6 +105,30 @@ function shift!(CL::List, steps::Int)
             CL.current = CL.current.next
         end
     end
+    return CL
+end
+
+"""
+Move the current head node in the circular list the given number of steps.
+Move forward if positive, and backward if negative.
+"""
+function move!(CL::List, steps::Int)
+    n = CL.current
+    n.prev.next = n.next   # fix prev node's next pointer
+    n.next.prev = n.prev   # fix next node's prev pointer
+    CL.current = n.prev    # reset List's current pointer to prev
+
+    shift!(CL, steps)
+
+    cl = CL.current
+
+    n.prev = cl
+    n.next = cl.next
+
+    cl.next = n         # fix prev node's next pointer
+    n.next.prev = n     # fix next node's prev pointer
+
+    CL.current = n     # move pointer to newly inserted node
     return CL
 end
 
