@@ -1,7 +1,7 @@
 name = "CircularList"
 uuid = "e1d4a2be-69cc-597c-a2ea-cc5d6f241fff"
 authors = ["Tom Kwong <tk3369@gmail.com>"]
-version = "1.1.0"
+version = "1.2.0"
 
 [compat]
 julia = "1.6"
